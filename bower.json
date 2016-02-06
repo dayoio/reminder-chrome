@@ -1,0 +1,12 @@
+{
+  "name": "reminder",
+  "private": true,
+  "version": "1",
+  "dependencies": {
+    "angular-material": "^1.0.5"
+  },
+  "devDependencies": {
+    "chai": "~3.5.0",
+    "mocha": "~2.4.5"
+  }
+}

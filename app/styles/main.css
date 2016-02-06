@@ -1,0 +1,15 @@
+body {
+}
+
+#app {
+  width: 320px;
+}
+
+#list {
+  height: 430px;
+}
+
+md-input-container .md-errors-spacer {
+  min-height: 1px;
+  min-width: 1px;
+}

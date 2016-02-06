@@ -1,0 +1,30 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Edit</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-icon="help"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-padding" ng-cloak>
+    <md-content>
+      <md-input-container class="md-block">
+        <label>Message*</label>
+        <input required ng-model="current.message">
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>After (Min)*</label>
+        <input required ng-model="current.after">
+        <div>next time: {{current.next}}</div>
+      </md-input-container>
+      <md-checkbox ng-model="current.repeat">Repeat</md-checkbox>
+    </md-content>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button class="md-primary" ng-click="ok()">
+      Save
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>
