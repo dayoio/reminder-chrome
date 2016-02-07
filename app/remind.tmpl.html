@@ -23,6 +23,9 @@
     </md-content>
   </md-dialog-content>
   <md-dialog-actions>
+    <md-button ng-if="current.name != undefined" class="md-warn" ng-click="delete()">
+      Delete
+    </md-button>
     <md-button class="md-primary" ng-click="ok()">
       Save
     </md-button>

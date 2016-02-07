@@ -13,20 +13,20 @@
   </head>
   <body>
 
-    <div id="app">
-        <md-toolbar md-tab-scroll ng-controller="mainController" class="md-whiteframe-z2">
+    <div id="app" ng-controller="mainController">
+        <md-toolbar md-tab-scroll class="md-whiteframe-z2">
           <div class="md-toolbar-tools">
             <md-icon md-svg-icon="alarm"></md-icon>
-            <h2>{{title}}</h2>
+            <h2>{{i18n('appName')}}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" aria-label="Add" ng-click="onClickRemind($event)">
+            <md-button class="md-icon-button" aria-label="Add" ng-click="putRemind($event)">
               <md-icon md-svg-icon="alarm_add"></md-icon>
             </md-button>
           </div>
         </md-toolbar>
-        <md-content id="list" ng-controller="listController">
+        <md-content id="list">
           <md-list>
-            <md-list-item class="md-2-line" ng-repeat="r in reminds" ng-click="onClickRemind($event, r)" ng-swipe-right="onSwipeRight(r)">
+            <md-list-item class="md-2-line" ng-repeat="r in $storage.reminds" ng-click="putRemind($event, r)" ng-swipe-right="onSwipeRight(r)">
               <div class="md-list-item-text">
                 <h3>{{r.message}}</h3>
                 <p>{{r.next}}</p>

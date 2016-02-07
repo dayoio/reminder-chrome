@@ -16,7 +16,8 @@
   },
   "permissions": [
     "background",
-    "notifications"
+    "notifications",
+    "storage"
   ],
   "browser_action": {
     "default_icon": {
