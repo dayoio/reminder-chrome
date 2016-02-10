@@ -1,0 +1,17 @@
+{
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "rules": {
+    "eol-last": 0,
+    "quotes": [
+      2,
+      "single"
+    ]
+  },
+  "globals": {
+    "angular": true,
+    "chrome": true
+  }
+}
