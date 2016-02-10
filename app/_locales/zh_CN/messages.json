@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "提示工具",
+    "description": "應用的名字"
+  },
+  "appDescription": {
+    "message": "一個簡單的提醒插件.",
+    "description": "應用的說明"
+  },
+  "reminderTitle": {
+    "message": "時間到!",
+    "description": "通知的標題"
+  }
+}

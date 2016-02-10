@@ -6,5 +6,36 @@
   "appDescription": {
     "message": "Simple reminder for you.",
     "description": "The description of the application"
+  },
+  "reminderTitle": {
+    "message": "Time's up!",
+    "description": "The title of the notification"
+  },
+  "remindNext": {
+    "message": "Next time:"
+  },
+  "remindDone": {
+    "message": "Done"
+  },
+  "editTitle": {
+    "message": "Edit"
+  },
+  "buttonDelete": {
+    "message": "Delete"
+  },
+  "buttonSave": {
+    "message": "Save"
+  },
+  "optionNullMessage": {
+    "message": "Message*"
+  },
+  "optionNullAfter": {
+    "message": "After (min)*"
+  },
+  "optionEnable": {
+    "message": "Enable"
+  },
+  "optionRepeat": {
+    "message": "Repeat"
   }
 }

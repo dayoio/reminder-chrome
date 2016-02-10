@@ -12,26 +12,29 @@
     <!-- endbuild -->
   </head>
   <body>
-
+    <!-- remind app -->
     <div id="app" ng-controller="mainController">
+        <!-- toolbar -->
         <md-toolbar md-tab-scroll class="md-whiteframe-z2">
           <div class="md-toolbar-tools">
             <md-icon md-svg-icon="alarm"></md-icon>
             <h2>{{i18n('appName')}}</h2>
             <span flex></span>
-            <md-button class="md-icon-button" aria-label="Add" ng-click="putRemind($event)">
+            <md-button class="md-icon-button" aria-label="Add a new remind" ng-click="editRemind($event)">
               <md-icon md-svg-icon="alarm_add"></md-icon>
             </md-button>
           </div>
         </md-toolbar>
+        <!-- reminds list -->
         <md-content id="list">
           <md-list>
-            <md-list-item class="md-2-line" ng-repeat="r in $storage.reminds" ng-click="putRemind($event, r)" ng-swipe-right="onSwipeRight(r)">
+            <md-list-item class="md-2-line secondary-button-padding" ng-repeat="r in reminds track by $index" ng-click="editRemind($event, r)" ng-swipe-right="deleteRemind(r)">
               <div class="md-list-item-text">
-                <h3>{{r.message}}</h3>
-                <p>{{r.next}}</p>
+                <p>{{r.message}}</p>
+                <p style="font-size: 1em; color: cornflowerblue;" ng-if="r.enable">{{i18n('remindNext')}} {{r.when | amDateFormat: 'MM/DD HH:mm'}}</p>
+                <p style="font-size: 1em; color: cornflowerblue;" ng-if="!r.enable">every {{r.after}} min(s)</p>
               </div>
-              <md-switch ng-model="r.enable" class="md-secondary md-accent"></md-switch>
+              <md-switch ng-change="enableChanged(r)" ng-model="r.enable" class="md-secondary md-accent"></md-switch>
               <md-divider inset/>
             </md-list-item>
           </md-list>
@@ -45,6 +48,8 @@
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
