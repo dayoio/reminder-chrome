@@ -1,8 +1,27 @@
 'use strict';
 
+angular.module('appSvr', [])
+  .service('reminderSvr', function($q) {
+    let self = this;
+    self.callBackground = function (method, ...args) {
+      let d = $q['defer']();
+      chrome.runtime.sendMessage({
+        method: method,
+        args: args
+      }, function (response) {
+        if(response.error !== undefined){
+          d.reject(response.error);
+        }else{
+          d.resolve(response.result);
+        }
+      });
+      return d.promise;
+    };
+  });
+
 // reminder app
 angular
-  .module('app', ['ngMaterial', 'ngStorage'])
+  .module('app', ['ngMaterial', 'ngMessages', 'appSvr', 'angularMoment'])
   .config(function ($mdThemingProvider, $mdIconProvider) {
     // set theme
     $mdThemingProvider.theme('default')
@@ -12,94 +31,84 @@ angular
     $mdIconProvider
       .icon('alarm', '../icons/ic_alarm_white_18px.svg', 18)
       .icon('alarm_add', '../icons/ic_add_alarm_white_18px.svg', 18)
-      .icon('delete', '../icons/ic_delete_black_18px.svg', 18)
-      .icon('help', '../icons/ic_help_black_18px.svg', 18);
+      .icon('close', '../icons/ic_close_white_18px.svg', 18);
+  })
+  // Main controller
+  .controller('mainController', ($scope, $rootScope, $mdDialog, $mdToast, $log, reminderSvr) => {
+    $scope.i18n = function (key, ...args) {
+      return chrome.i18n.getMessage(key, args);
+    };
+
+    function fetchData() {
+      $log.info('fetching data...');
+      reminderSvr.callBackground('updateAllReminds', []).then(result => {
+        $scope.reminds = result.reminds || [];
+      });
+    }
+
+    function showToast(msg) {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent(msg)
+          .position({bottom: true, left: true})
+          .hideDelay(1000)
+      );
+    }
+
+    $scope.enableChanged = function (r) {
+      reminderSvr.callBackground('saveRemind', r).then((nr) => {
+        r.when = nr.when;
+        showToast(r.message + (r.enable ? ' has enabled.' : ' has disabled.'));
+      }, error => {
+        showToast(error);
+      });
+    };
+
+    $rootScope.editRemind = function ($event, remind = null) {
+      $mdDialog.show({
+        controller: 'dialogController',
+        templateUrl: 'remind.tmpl.html',
+        parent: angular.element(document.body),
+        targetEvent: $event,
+        clickOutsideToClose: true,
+        locals: {remind: angular.copy(remind)}
+      }).then(response => {
+        reminderSvr.callBackground(response.method, response.args).then(() => {
+          fetchData();
+        }, error => {
+          showToast(error);
+        });
+      });
+    };
+    //
+    fetchData();
   })
   // Dialog controller
-  .controller('dialogController', function ($scope, $mdDialog, current) {
-    $scope.current = current == null ? {
-      enable: false,
-      repeat: false
-    } : current;
-    // handlers
+  .controller('dialogController', ($scope, $mdDialog, reminderSvr, remind) => {
+    $scope.i18n = function (key) {
+      return chrome.i18n.getMessage(key);
+    };
+
+    $scope.remind = remind || {
+        enable: true,
+        repeat: false,
+        message: '',
+        after: 10
+      };
+    // handles
     $scope.cancel = function () {
       $mdDialog.cancel();
     };
     $scope.delete = function () {
-      $scope.deleteRemind($scope.current);
-      $mdDialog.hide();
+      $mdDialog.hide({
+        method: 'deleteRemind',
+        args: $scope.remind
+      });
     };
     $scope.ok = function () {
-      $mdDialog.hide($scope.current);
-    };
-  })
-  // Main controller
-  .controller('mainController', function ($scope, $rootScope, $localStorage, $mdDialog, $log) {
-
-    $rootScope.i18n = function (key) {
-      return chrome.i18n.getMessage(key);
-    };
-
-    $rootScope.$storage = $localStorage.$default({
-      reminds: []
-    });
-
-    $rootScope.deleteRemind = function (remind) {
-      if(remind.name === undefined){
-        return;
-      }
-      let res = $rootScope.getRemind(remind);
-      if(res.index > -1)
-      {
-        if(res.value.enable)
-        {
-          chrome.runtime.sendMessage({
-            remind: res.value
-          });
-        }
-        $rootScope.$storage.reminds.splice(res.index, 1);
-      }
-    };
-
-    $rootScope.getRemind = function (remind) {
-      try{
-        for(let i =0;i< $rootScope.$storage.reminds.length; i++)
-        {
-          if($rootScope.$storage.reminds[i].name === remind.name){
-            return {
-              index: i,
-              value: $rootScope.$storage.reminds[i]
-            };
-          }
-        }
-      }catch(err){
-        $log.error(err);
-      }
-      return {
-        index: -1
-      };
-    }
-
-    $rootScope.putRemind = function ($event, remind = null) {
-      // show dialog
-      $mdDialog.show({
-          controller: 'dialogController',
-          templateUrl: 'remind.tmpl.html',
-          parent: angular.element(document.body),
-          targetEvent: $event,
-          clickOutsideToClose: true,
-          locals: {current: angular.copy(remind)}
-        })
-        .then(function (newRemind) {
-          let res = $rootScope.getRemind(newRemind);
-          if(res.index > -1){
-            $rootScope.$storage.reminds.splice(res.index, 1, newRemind);
-            chrome.runtime.sendMessage({
-              remind: newRemind
-            });
-          }else{
-            $rootScope.$storage.reminds.push(newRemind);
-          }
-        });
+      $mdDialog.hide({
+        method: 'saveRemind',
+        args: $scope.remind
+      });
     };
   });
