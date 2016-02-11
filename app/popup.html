@@ -32,7 +32,7 @@
               <div class="md-list-item-text">
                 <p>{{r.message}}</p>
                 <p style="font-size: 1em; color: cornflowerblue;" ng-if="r.enable">{{i18n('remindNext')}} {{r.when | amDateFormat: 'MM/DD HH:mm'}}</p>
-                <p style="font-size: 1em; color: cornflowerblue;" ng-if="!r.enable">every {{r.after}} min(s)</p>
+                <p style="font-size: 1em; color: cornflowerblue;" ng-if="!r.enable">{{i18n('remindAfter', r.after)}}</p>
               </div>
               <md-switch ng-change="enableChanged(r)" ng-model="r.enable" class="md-secondary md-accent"></md-switch>
               <md-divider inset/>

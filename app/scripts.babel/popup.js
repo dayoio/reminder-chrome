@@ -29,9 +29,10 @@ angular
       .accentPalette('deep-orange');
     // icons
     $mdIconProvider
-      .icon('alarm', '../icons/ic_alarm_white_18px.svg', 18)
-      .icon('alarm_add', '../icons/ic_add_alarm_white_18px.svg', 18)
-      .icon('close', '../icons/ic_close_white_18px.svg', 18);
+      .icon('alarm', '../images/icons/ic_alarm_white_18px.svg', 18)
+      .icon('alarm_add', '../images/icons/ic_add_alarm_white_18px.svg', 18)
+      .icon('repeat', '../images/icons/ic_repeat_black_18px.svg', 18)
+      .icon('close', '../images/icons/ic_close_white_18px.svg', 18);
   })
   // Main controller
   .controller('mainController', ($scope, $rootScope, $mdDialog, $mdToast, $log, reminderSvr) => {
@@ -41,7 +42,7 @@ angular
 
     function fetchData() {
       $log.info('fetching data...');
-      reminderSvr.callBackground('updateAllReminds', []).then(result => {
+      reminderSvr.callBackground('syncAllReminds', []).then(result => {
         $scope.reminds = result.reminds || [];
       });
     }
@@ -82,6 +83,8 @@ angular
     };
     //
     fetchData();
+    //
+
   })
   // Dialog controller
   .controller('dialogController', ($scope, $mdDialog, reminderSvr, remind) => {

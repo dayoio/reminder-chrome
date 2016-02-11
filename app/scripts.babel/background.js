@@ -1,16 +1,31 @@
 'use strict';
 
 let defaultData = {
-  reminds: [{after: 10, message: 'Hello World'}],
+  reminds: [],
   time: Date.now()
 };
 
 let appData = {
-  time: -1
+  time: -1,
+  reminds: []
 };
 
 let app = {
-  updateAllReminds: function () {
+  fixData: function () {
+    console.log('fix data');
+    this.syncAllReminds().then(() => {
+      let now = Date.now();
+      appData.reminds.forEach(x => {
+        if(x.when < now){
+          x.enable = false;
+          chrome.alarms.clear(x.name);
+        }
+      });
+      appData.time = now;
+      this.syncAllReminds();
+    });
+  },
+  syncAllReminds: function () {
     return new Promise((resolve) => {
       chrome.storage.sync.get(defaultData, function (data) {
         if (data.time >= appData.time) {
@@ -37,23 +52,23 @@ let app = {
     }
   },
   deleteRemind: function (r) {
-    let index = appData.reminds.findIndex(x => x.name === x.name);
+    let index = appData.reminds.findIndex(x => x.name === r.name);
     if (index > -1) {
+      this.updateRemind(r);
       appData.reminds.splice(index, 1);
       appData.time = Date.now();
-      this.updateRemind(r);
-      this.updateAllReminds();
+      this.syncAllReminds();
     }
   },
   addRemind: function (r) {
-    r.name = this.randString(16);
+    r.name = this.randString(6);
     appData.reminds.push(r);
     appData.time = Date.now();
     this.updateRemind(r);
-    this.updateAllReminds();
+    this.syncAllReminds();
   },
   randString: function (x) {
-    var s = "";
+    var s = '';
     while (s.length < x && x > 0) {
       var r = Math.random();
       s += (r < 0.1 ? Math.floor(r * 100) : String.fromCharCode(Math.floor(r * 26) + (r > 0.5 ? 97 : 65)));
@@ -66,28 +81,30 @@ let app = {
     }
     if (r.name === undefined) {
       this.addRemind(r);
-      return;
+      return r;
     }
     let index = appData.reminds.findIndex(x => x.name === r.name);
     if (index > -1) {
-      this.updateRemind(r);
       appData.reminds.splice(index, 1, r);
       appData.time = Date.now();
+      this.updateRemind(r);
+      this.syncAllReminds();
     }
     return r;
   },
   validRemind: function (r) {
-    if (r.message === undefined || r.message === null || r.message === '')
+    if (r.message === undefined || r.message === null || r.message === ''){
       return false;
-    if (r.after === undefined || r.after === null || parseInt(r.after) === 0)
+    }
+    if (r.after === undefined || r.after === null || parseInt(r.after) === 0){
       return false;
+    }
     return true;
   }
 };
 
 chrome.runtime.onInstalled.addListener(details => {
-  //console.log('previousVersion', details.previousVersion);
-  app.updateAllReminds();
+  console.log('previousVersion', details.previousVersion);
 });
 
 /*chrome.storage.onChanged.addListener((changes, areaName) => {
@@ -103,15 +120,15 @@ chrome.alarms.onAlarm.addListener(alarm => {
       app.updateRemind(remind);
     } else {
       remind.enable = false;
-      appData.time = Date.now();
-      app.updateAllReminds();
     }
     chrome.notifications.create(remind.name, {
-      title: 'Time\'s up!',
+      title: chrome.i18n.getMessage('reminderTitle'),
       type: 'basic',
       message: remind.message,
-      iconUrl: 'images/icon-38.png'
+      iconUrl: 'images/icon-48.png'
     });
+    appData.time = Date.now();
+    app.syncAllReminds();
   }
 });
 
@@ -139,3 +156,6 @@ chrome.runtime.onMessage.addListener((request, sender, callback) => {
   });
   return true;
 });
+
+app.fixData();
+
