@@ -1,0 +1,41 @@
+{
+  "appName": {
+    "message": "提醒鬧鐘"
+  },
+  "appDescription": {
+    "message": "簡單的提醒插件."
+  },
+  "reminderTitle": {
+    "message": "時間到!"
+  },
+  "remindNext": {
+    "message": "提醒時間:"
+  },
+  "remindAfter": {
+    "message": "$1 分鐘後"
+  },
+  "remindDone": {
+    "message": "完成"
+  },
+  "editTitle": {
+    "message": "編輯"
+  },
+  "buttonDelete": {
+    "message": "刪除"
+  },
+  "buttonSave": {
+    "message": "保存"
+  },
+  "optionNullMessage": {
+    "message": "提醒信息*"
+  },
+  "optionNullAfter": {
+    "message": "幾分鐘後*"
+  },
+  "optionEnable": {
+    "message": "啓用"
+  },
+  "optionRepeat": {
+    "message": "重複"
+  }
+}

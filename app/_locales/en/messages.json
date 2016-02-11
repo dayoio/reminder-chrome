@@ -1,18 +1,18 @@
 {
   "appName": {
-    "message": "Reminder",
-    "description": "The name of the application"
+    "message": "Reminder"
   },
   "appDescription": {
-    "message": "Simple reminder for you.",
-    "description": "The description of the application"
+    "message": "Simple reminder for you."
   },
   "reminderTitle": {
-    "message": "Time's up!",
-    "description": "The title of the notification"
+    "message": "Time's up!"
   },
   "remindNext": {
     "message": "Next time:"
+  },
+  "remindAfter": {
+    "message": "after $1 min(s)"
   },
   "remindDone": {
     "message": "Done"
