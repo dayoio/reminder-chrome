@@ -28,7 +28,7 @@
         <!-- reminds list -->
         <md-content id="list">
           <md-list>
-            <md-list-item class="md-2-line secondary-button-padding" ng-repeat="r in reminds track by $index" ng-click="editRemind($event, r)" ng-swipe-right="deleteRemind(r)">
+            <md-list-item class="md-2-line secondary-button-padding" ng-repeat="r in reminds track by $index" ng-click="editRemind($event, r)">
               <div class="md-list-item-text">
                 <p>{{r.message}}</p>
                 <p style="font-size: 1em; color: cornflowerblue;" ng-if="r.enable">{{i18n('remindNext')}} {{r.when | amDateFormat: 'MM/DD HH:mm'}}</p>

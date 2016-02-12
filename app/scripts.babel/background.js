@@ -12,7 +12,6 @@ let appData = {
 
 let app = {
   fixData: function () {
-    console.log('fix data');
     this.syncAllReminds().then(() => {
       let now = Date.now();
       appData.reminds.forEach(x => {
@@ -36,7 +35,6 @@ let app = {
         } else {
           chrome.storage.sync.set(appData);
         }
-        console.log(appData);
         resolve(appData);
       });
     });
@@ -107,10 +105,6 @@ chrome.runtime.onInstalled.addListener(details => {
   console.log('previousVersion', details.previousVersion);
 });
 
-/*chrome.storage.onChanged.addListener((changes, areaName) => {
- console.log(areaName + ' changed!');
- });*/
-
 // Alarm handler
 chrome.alarms.onAlarm.addListener(alarm => {
   let index = appData.reminds.findIndex(x => x.name === alarm.name);
@@ -144,7 +138,6 @@ chrome.runtime.onMessage.addListener((request, sender, callback) => {
     console.error('error method');
     return;
   }
-  //console.log('calling', request.method);
   let p = Promise.resolve().then(() => method.apply(app, request.args));
   p.then(result => {
     //console.log('send result: ', result);
