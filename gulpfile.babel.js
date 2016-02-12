@@ -56,7 +56,7 @@ gulp.task('html',  () => {
   return gulp.src('app/*.html')
     .pipe(assets)
     .pipe($.sourcemaps.init())
-    .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.js', $.uglify({mangle: false})))
     .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
     .pipe($.sourcemaps.write())
     .pipe(assets.restore())
@@ -78,7 +78,7 @@ gulp.task('chromeManifest', () => {
   }))
   .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
   .pipe($.if('*.js', $.sourcemaps.init()))
-  .pipe($.if('*.js', $.uglify()))
+  .pipe($.if('*.js', $.uglify({mangle: false})))
   .pipe($.if('*.js', $.sourcemaps.write('.')))
   .pipe(gulp.dest('dist'));
 });
