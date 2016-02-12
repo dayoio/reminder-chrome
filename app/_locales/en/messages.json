@@ -12,7 +12,7 @@
     "message": "Next time:"
   },
   "remindAfter": {
-    "message": "after $1 min(s)"
+    "message": "Alarm: $1 min(s)"
   },
   "remindDone": {
     "message": "Done"

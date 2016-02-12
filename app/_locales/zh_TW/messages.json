@@ -12,7 +12,7 @@
     "message": "提醒時間:"
   },
   "remindAfter": {
-    "message": "$1 分鐘後"
+    "message": "鬧鐘: $1 分鐘"
   },
   "remindDone": {
     "message": "完成"
