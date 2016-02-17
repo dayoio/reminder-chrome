@@ -1,12 +1,12 @@
 # Reminder
 
->Simple alarm clock.
+>A simple alarm clock for chrome.
 
 *在商店了找了下沒有找到想要的功能, 所以順便用下angular-material, 依賴包好大~~ o_o*
 
 ## Screenshot
 
-[![screenshot](./images/screenshot.png)]
+![screenshot](./images/screenshot.png)
 
 ## Install
 
