@@ -12,6 +12,10 @@
 
 [![webstore](https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_206x58.png)](https://chrome.google.com/webstore/detail/nhinihlcaopodengnofmddnibmjiahep)
 
+## Todo
+
+- [ ] 闹钟
+
 ## License
 
 MIT
