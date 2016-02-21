@@ -12,16 +12,20 @@ let appData = {
 
 let app = {
   fixData: function () {
-    this.syncAllReminds().then(() => {
-      let now = Date.now();
-      appData.reminds.forEach(x => {
-        if(x.when < now){
-          x.enable = false;
-          chrome.alarms.clear(x.name);
-        }
-      });
-      appData.time = now;
-      this.syncAllReminds();
+    let now = Date.now();
+    appData.reminds.forEach(x => {
+      if(x.when <= now){
+        x.enable = false;
+        chrome.alarms.clear(x.name);
+      }else if(x.when > now && x.enable){
+        chrome.alarms.get(x.name, function(alarm){
+          if(alarm === null) {
+            chrome.alarms.create(x.name, {
+              'when': x.when
+            });
+          }
+        });
+      }
     });
   },
   syncAllReminds: function () {
@@ -32,7 +36,7 @@ let app = {
             reminds: data.reminds,
             time: data.time
           };
-        } else {
+        } else if(appData.time > data.time){
           chrome.storage.sync.set(appData);
         }
         resolve(appData);
@@ -150,5 +154,6 @@ chrome.runtime.onMessage.addListener((request, sender, callback) => {
   return true;
 });
 
-app.fixData();
-
+app.syncAllReminds().then(() => {
+  app.fixData();
+});
