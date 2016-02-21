@@ -123,7 +123,7 @@ chrome.alarms.onAlarm.addListener(alarm => {
       title: chrome.i18n.getMessage('reminderTitle'),
       type: 'basic',
       message: remind.message,
-      iconUrl: 'images/icon-48.png'
+      iconUrl: 'images/icon-24.png'
     });
     appData.time = Date.now();
     app.syncAllReminds();
