@@ -31,11 +31,12 @@ let app = {
   syncAllReminds: function () {
     return new Promise((resolve) => {
       chrome.storage.sync.get(defaultData, function (data) {
-        if (data.time >= appData.time) {
+        if (data.time > appData.time) {
           appData = {
             reminds: data.reminds,
             time: data.time
           };
+          app.fixData();
         } else if(appData.time > data.time){
           chrome.storage.sync.set(appData);
         }
@@ -157,6 +158,4 @@ chrome.runtime.onMessage.addListener((request, sender, callback) => {
   return true;
 });
 
-app.syncAllReminds().then(() => {
-  app.fixData();
-});
+app.syncAllReminds();

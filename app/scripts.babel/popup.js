@@ -47,21 +47,9 @@ angular
       });
     }
 
-    function showToast(msg) {
-      $mdToast.show(
-        $mdToast.simple()
-          .textContent(msg)
-          .position({bottom: true, left: true})
-          .hideDelay(1000)
-      );
-    }
-
     $scope.enableChanged = function (r) {
       reminderSvr.callBackground('saveRemind', r).then((nr) => {
         r.when = nr.when;
-        showToast(r.message + (r.enable ? ' has enabled.' : ' has disabled.'));
-      }, error => {
-        showToast(error);
       });
     };
 
@@ -83,8 +71,6 @@ angular
     };
     //
     fetchData();
-    //
-
   })
   // Dialog controller
   .controller('dialogController', ($scope, $mdDialog, reminderSvr, remind) => {
