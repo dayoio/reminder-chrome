@@ -9,10 +9,10 @@
     "message": "Time's up!"
   },
   "remindNext": {
-    "message": "Next time:"
+    "message": "Alarm:"
   },
   "remindAfter": {
-    "message": "Alarm: $1 min(s)"
+    "message": "After $1 min(s)"
   },
   "remindDone": {
     "message": "Done"

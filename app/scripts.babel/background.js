@@ -109,6 +109,9 @@ chrome.runtime.onInstalled.addListener(details => {
   console.log('previousVersion', details.previousVersion);
 });
 
+// chrome.runtime.onSuspend.addListener(() => {
+// });
+
 // Alarm handler
 chrome.alarms.onAlarm.addListener(alarm => {
   let index = appData.reminds.findIndex(x => x.name === alarm.name);

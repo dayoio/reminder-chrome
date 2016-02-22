@@ -1,8 +1,7 @@
 # Reminder
 
 >A simple alarm clock for chrome.
-
-*在商店了找了下沒有找到想要的功能, 所以順便用下angular-material, 依賴包好大~~ o_o*
+>在商店了找了下沒有找到想要的功能, 所以順便用下angular-material, 依賴包好大~~ o_o
 
 ## Screenshot
 
