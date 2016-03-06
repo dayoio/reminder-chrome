@@ -13,7 +13,7 @@
       <form name="editForm">
         <md-input-container class="md-block">
           <label>{{i18n('optionNullMessage')}}</label>
-          <input required ng-model="remind.message" name="message">
+          <input equired ng-model="remind.message" name="message">
           <div ng-messages="editForm.message.$error">
             <div ng-message="required">Message is required.</div>
           </div>

@@ -36,10 +36,10 @@ let app = {
             reminds: data.reminds,
             time: data.time
           };
-          app.fixData();
         } else if(appData.time > data.time){
           chrome.storage.sync.set(appData);
         }
+        app.fixData();
         resolve(appData);
       });
     });

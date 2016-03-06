@@ -1,5 +1,5 @@
 body {
-  font-family: "Helvetica","Microsoft Yahei",sans-serif;
+  font-family: "Microsoft Yahei", Arial, sans-serif;
 }
 
 #app {
@@ -8,6 +8,7 @@ body {
 
 #list {
   height: 430px;
+  overflow-x: hidden;
 }
 
 md-input-container .md-errors-spacer {

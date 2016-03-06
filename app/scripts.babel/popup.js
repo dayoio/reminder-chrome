@@ -1,6 +1,20 @@
 'use strict';
 
-angular.module('appSvr', [])
+// reminder app
+angular
+  .module('app', ['ngMaterial', 'ngMessages', 'angularMoment'])
+  .config(function ($mdThemingProvider, $mdIconProvider) {
+    // set theme
+    $mdThemingProvider.theme('default')
+      .primaryPalette('teal')
+      .accentPalette('deep-orange');
+    // icons
+    $mdIconProvider
+      .icon('alarm', '../images/icons/ic_alarm_white_18px.svg', 18)
+      .icon('alarm_add', '../images/icons/ic_add_alarm_white_18px.svg', 18)
+      .icon('repeat', '../images/icons/ic_repeat_black_18px.svg', 18)
+      .icon('close', '../images/icons/ic_close_white_18px.svg', 18);
+  })
   .service('reminderSvr', function($q) {
     let self = this;
     self.callBackground = function (method, ...args) {
@@ -17,22 +31,6 @@ angular.module('appSvr', [])
       });
       return d.promise;
     };
-  });
-
-// reminder app
-angular
-  .module('app', ['ngMaterial', 'ngMessages', 'appSvr', 'angularMoment'])
-  .config(function ($mdThemingProvider, $mdIconProvider) {
-    // set theme
-    $mdThemingProvider.theme('default')
-      .primaryPalette('teal')
-      .accentPalette('deep-orange');
-    // icons
-    $mdIconProvider
-      .icon('alarm', '../images/icons/ic_alarm_white_18px.svg', 18)
-      .icon('alarm_add', '../images/icons/ic_add_alarm_white_18px.svg', 18)
-      .icon('repeat', '../images/icons/ic_repeat_black_18px.svg', 18)
-      .icon('close', '../images/icons/ic_close_white_18px.svg', 18);
   })
   // Main controller
   .controller('mainController', ($scope, $rootScope, $mdDialog, $mdToast, $log, reminderSvr) => {
@@ -60,12 +58,15 @@ angular
         parent: angular.element(document.body),
         targetEvent: $event,
         clickOutsideToClose: true,
-        locals: {remind: angular.copy(remind)}
+        locals: {remind: angular.copy(remind)},
+        onComplete: function(scope, element) {
+          element[0].getElementsByTagName('input')[0].focus();
+        }
       }).then(response => {
         reminderSvr.callBackground(response.method, response.args).then(() => {
           fetchData();
         }, error => {
-          showToast(error);
+          console.error(error);
         });
       });
     };
