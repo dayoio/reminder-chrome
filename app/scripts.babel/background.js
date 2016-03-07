@@ -15,8 +15,17 @@ let app = {
     let now = Date.now();
     appData.reminds.forEach(x => {
       if(x.when <= now){
-        x.enable = false;
-        chrome.alarms.clear(x.name);
+        if(x.repeat && x.enable) {
+          while (x.when < now) {
+            x.when += parseInt(r.after) * 60000;
+          }
+          chrome.alarms.create(x.name, {
+            'when': x.when
+          });
+        } else {
+          x.enable = false;
+          chrome.alarms.clear(x.name);
+        }
       }else if(x.when > now && x.enable){
         chrome.alarms.get(x.name, function(alarm){
           if(alarm === null) {
@@ -36,10 +45,10 @@ let app = {
             reminds: data.reminds,
             time: data.time
           };
+          app.fixData();
         } else if(appData.time > data.time){
           chrome.storage.sync.set(appData);
         }
-        app.fixData();
         resolve(appData);
       });
     });
