@@ -17,7 +17,7 @@ let app = {
       if(x.when <= now){
         if(x.repeat && x.enable) {
           while (x.when < now) {
-            x.when += parseInt(r.after) * 60000;
+            x.when += parseInt(x.after) * 60000;
           }
           chrome.alarms.create(x.name, {
             'when': x.when
