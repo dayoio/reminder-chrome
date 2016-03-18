@@ -1,22 +1,29 @@
 # Reminder
 
+[![react](https://img.shields.io/badge/react-0.14.7-2BAF2B.svg?style=flat-square)](https://github.com/facebook/react)
+[![material-ui](https://img.shields.io/badge/material--ui-0.14.4-2BAF2B.svg?style=flat-square)](https://github.com/callemall/material-ui)
+
 >A simple alarm clock for chrome.
->在商店了找了下沒有找到想要的功能, 所以順便用下angular-material, 依賴包好大~~ o_o
+
+>Build a other extension to learn react.
+
+## Development
+
+```bash
+# install modules
+$ npm install
+# copy assets to ./dev and run webpack-dev-server
+$ npm run dev
+```
 
 ## Screenshot
 
-![screenshot](./images/screenshot.png)
+![screenshot](./screenshot.png)
 
 ## Install
 
 [![webstore](https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_206x58.png)](https://chrome.google.com/webstore/detail/nhinihlcaopodengnofmddnibmjiahep)
 
-## Todo
-
-- [ ] 闹钟
-
 ## License
 
-MIT
-
-[![angular-img](https://img.shields.io/badge/angular--material-1.0.5-2BAF2B.svg?style=flat-square)](https://material.angularjs.org/)
+MIT [LICENSE](./LICENSE)
