@@ -3,9 +3,11 @@
 [![react](https://img.shields.io/badge/react-0.14.7-2BAF2B.svg?style=flat-square)](https://github.com/facebook/react)
 [![material-ui](https://img.shields.io/badge/material--ui-0.14.4-2BAF2B.svg?style=flat-square)](https://github.com/callemall/material-ui)
 
->A simple alarm clock for chrome.
-
 >Build a other extension to learn react.
+
+## Feature
+
+ - just a alarm clock.
 
 ## Development
 
